@@ -1,0 +1,49 @@
+name: Update profile activity
+
+on:
+  schedule:
+    - cron: '20 4 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/update_activity.py'
+      - 'tests/test_activity.py'
+      - '.github/workflows/profile-art.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: profile-activity
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Test the calendar parser
+        run: python -m unittest discover -s tests -v
+      - name: Fetch the public calendar and draw the SVG
+        run: python scripts/update_activity.py
+      - name: Save changed activity files
+        shell: bash
+        run: |
+          git add data/activity.json assets/activity.svg
+          if git diff --cached --quiet; then
+            echo 'The activity files are already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Update contribution calendar'
+          git push origin HEAD:main
