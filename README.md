@@ -10,6 +10,8 @@
   <a href="https://github.com/CodeByAbdulaziz?tab=repositories"><strong>All repositories ↗</strong></a>
   &nbsp; · &nbsp;
   <a href="https://x.com/codeby3ziz"><strong>X ↗</strong></a>
+  &nbsp; · &nbsp;
+  <a href="https://stackoverflow.com/users/33210160/abdulaziz?tab=profile"><strong>Stack Overflow ↗</strong></a>
 </p>
 
 I'm Abdulaziz, based in Saudi Arabia. I enjoy working with data and building useful software.
